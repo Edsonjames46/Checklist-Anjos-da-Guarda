@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checklist de Frota</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(to bottom, #e0f7fa, #f7f7f7);
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Ícone de checklist no topo */
+      .checklist-icon {
+        display: block;
+        text-align: center;
+        font-size: 80px;
+        color: #007bff;
+        margin-top: 50px;
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        text-align: center;
+        color: #007bff;
+        margin-top: 0;
+        font-size: 2em;
+      }
+
+      form {
+        background: #ffffffdd;
+        padding: 25px;
+        border-radius: 12px;
+        margin: 20px auto 40px auto;
+        max-width: 800px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        transition: box-shadow 0.3s ease;
+      }
+      form:hover {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+      }
+
+      label {
+        display: block;
+        margin-top: 15px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        margin-top: 5px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        font-size: 1em;
+        transition: border-color 0.3s, box-shadow 0.3s;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        outline: none;
+      }
+
+      button {
+        background: #007bff;
+        color: #fff;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        margin-top: 20px;
+        padding: 12px;
+        border-radius: 8px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        transition: background 0.3s, transform 0.2s;
+      }
+      button:hover {
+        background: #0056b3;
+        transform: translateY(-2px);
+      }
+
+      /* Responsividade */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 1.6em;
+        }
+        .checklist-icon {
+          font-size: 60px;
+          margin-top: 40px;
+        }
+        form {
+          padding: 20px;
+          margin: 20px 15px;
+        }
+      }
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 1.4em;
+        }
+        .checklist-icon {
+          font-size: 50px;
+          margin-top: 30px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Ícone de checklist -->
+    <div class="checklist-icon"><i class="fas fa-clipboard-check"></i></div>
+    <h1>Checklist Anjos da Guarda</h1>
+
+    <form
+      method="POST"
+      action="https://script.google.com/macros/s/AKfycbykhm8jwLpTR39oj7eUuzp20swtLqUuyKBxn1wO3dz-i-tUSY0iHGlkGtcj8q9DsFqFXg/exec"
+      target="_self"
+    >
+      <label><i class="fas fa-user"></i> Motorista:</label>
+      <input
+        type="text"
+        name="driver"
+        placeholder="Nome do motorista"
+        required
+      />
+
+      <label><i class="fas fa-id-card"></i> Placa da Moto:</label>
+      <select name="vehicle" id="vehicle" required>
+        <option value="">Selecione</option>
+        <option value="SHT4D07">SHT4D07</option>
+        <option value="SHT4D84">SHT4D84</option>
+        <option value="SHT4D74">SHT4D74</option>
+        <option value="QMY5E74">QMY5E74</option>
+        <option value="SHI1I61">SHI1I61</option>
+        <option value="Outro">Outro</option>
+      </select>
+      <input
+        type="text"
+        name="vehicleOther"
+        id="vehicleOther"
+        style="display: none"
+        placeholder="Digite a placa"
+      />
+
+      <label><i class="fas fa-road"></i> Finalidade:</label>
+      <select name="purpose" id="purpose" required>
+        <option value="">Selecione</option>
+        <option value="Início de Rota">Início de Rota</option>
+        <option value="Fim de Rota">Fim de Rota</option>
+        <option value="Abastecimento">Abastecimento</option>
+        <option value="Manutenção">Manutenção</option>
+        <option value="Correspondência">Correspondência</option>
+      </select>
+
+      <div id="kmStartDiv">
+        <label><i class="fas fa-tachometer-alt"></i> KM Inicial:</label>
+        <input type="number" name="kmStart" placeholder="Digite o KM inicial" />
+      </div>
+
+      <div id="kmEndDiv" style="display: none">
+        <label><i class="fas fa-tachometer-alt"></i> KM Final:</label>
+        <input type="number" name="kmEnd" placeholder="Digite o KM final" />
+      </div>
+
+      <label><i class="fas fa-car"></i> Uso do Veículo:</label>
+      <select name="usage" required>
+        <option value="">Selecione</option>
+        <option value="Serviço">Serviço</option>
+        <option value="Transporte Pessoal">Transporte Pessoal</option>
+        <option value="Emergência">Emergência</option>
+      </select>
+
+      <label
+        ><i class="fas fa-exclamation-triangle"></i> Veículo possui
+        alteração?</label
+      >
+      <select name="issueSelect" id="issueSelect" required>
+        <option value="">Selecione</option>
+        <option value="Não">Não</option>
+        <option value="Sim">Sim</option>
+      </select>
+
+      <div id="issueDetails" style="display: none">
+        <label><i class="fas fa-pen"></i> Descreva a alteração:</label>
+        <textarea
+          name="issueDesc"
+          id="issueDesc"
+          rows="4"
+          placeholder="Detalhes da alteração"
+        ></textarea>
+      </div>
+
+      <button type="submit">
+        <i class="fas fa-paper-plane"></i> Enviar Checklist
+      </button>
+    </form>
+
+    <script>
+      const vehicle = document.getElementById("vehicle");
+      const vehicleOther = document.getElementById("vehicleOther");
+      const purpose = document.getElementById("purpose");
+      const kmStartDiv = document.getElementById("kmStartDiv");
+      const kmEndDiv = document.getElementById("kmEndDiv");
+      const issueSelect = document.getElementById("issueSelect");
+      const issueDetails = document.getElementById("issueDetails");
+
+      vehicle.addEventListener("change", () => {
+        if (vehicle.value === "Outro") {
+          vehicleOther.style.display = "block";
+          vehicleOther.required = true;
+        } else {
+          vehicleOther.style.display = "none";
+          vehicleOther.required = false;
+          vehicleOther.value = "";
+        }
+      });
+
+      purpose.addEventListener("change", () => {
+        if (purpose.value === "Fim de Rota") {
+          kmStartDiv.style.display = "none";
+          kmEndDiv.style.display = "block";
+        } else {
+          kmStartDiv.style.display = "block";
+          kmEndDiv.style.display = "none";
+        }
+      });
+
+      issueSelect.addEventListener("change", () => {
+        if (issueSelect.value === "Sim") {
+          issueDetails.style.display = "block";
+        } else {
+          issueDetails.style.display = "none";
+          document.getElementById("issueDesc").value = "";
+        }
+      });
+    </script>
+  </body>
+</html>
