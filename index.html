@@ -8,208 +8,245 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
     />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <style>
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(to bottom, #e0f7fa, #f7f7f7);
         margin: 0;
         padding: 0;
+        background: #f4f6f9;
       }
-
-      /* Ícone de checklist no topo */
-      .checklist-icon {
-        display: block;
-        text-align: center;
-        font-size: 80px;
-        color: #007bff;
-        margin-top: 50px;
-        margin-bottom: 20px;
-      }
-
       h1 {
         text-align: center;
         color: #007bff;
-        margin-top: 0;
-        font-size: 2em;
+        margin: 20px;
+      }
+
+      /* Abas */
+      .tabs {
+        display: flex;
+        justify-content: center;
+        background: #007bff;
+      }
+      .tabs button {
+        flex: 1;
+        padding: 14px;
+        border: none;
+        cursor: pointer;
+        color: white;
+        font-weight: bold;
+        background: #007bff;
+        transition: background 0.3s;
+      }
+      .tabs button:hover {
+        background: #0056b3;
+      }
+      .tabs button.active {
+        background: #004494;
+      }
+
+      .tab-content {
+        display: none;
+        padding: 20px;
       }
 
       form {
-        background: #ffffffdd;
+        background: #fff;
         padding: 25px;
-        border-radius: 12px;
-        margin: 20px auto 40px auto;
+        border-radius: 10px;
         max-width: 800px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        transition: box-shadow 0.3s ease;
+        margin: auto;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
       }
-      form:hover {
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-      }
-
       label {
         display: block;
         margin-top: 15px;
         font-weight: 600;
-        color: #333;
       }
-
       input,
       select,
       textarea {
         width: 100%;
-        padding: 12px;
+        padding: 10px;
         margin-top: 5px;
-        border-radius: 8px;
+        border-radius: 6px;
         border: 1px solid #ccc;
-        box-sizing: border-box;
-        font-size: 1em;
-        transition: border-color 0.3s, box-shadow 0.3s;
       }
-
-      input:focus,
-      select:focus,
-      textarea:focus {
-        border-color: #007bff;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        outline: none;
-      }
-
       button {
         background: #007bff;
         color: #fff;
-        font-size: 16px;
         border: none;
-        cursor: pointer;
-        margin-top: 20px;
         padding: 12px;
-        border-radius: 8px;
+        margin-top: 20px;
+        border-radius: 6px;
+        cursor: pointer;
         width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 8px;
-        transition: background 0.3s, transform 0.2s;
       }
       button:hover {
         background: #0056b3;
-        transform: translateY(-2px);
       }
 
-      /* Responsividade */
-      @media (max-width: 768px) {
-        h1 {
-          font-size: 1.6em;
-        }
-        .checklist-icon {
-          font-size: 60px;
-          margin-top: 40px;
-        }
-        form {
-          padding: 20px;
-          margin: 20px 15px;
-        }
+      /* Admin */
+      #filter {
+        margin: 20px 0;
+        padding: 8px;
+        width: 100%;
+        border-radius: 6px;
+        border: 1px solid #ccc;
       }
-      @media (max-width: 480px) {
-        h1 {
-          font-size: 1.4em;
-        }
-        .checklist-icon {
-          font-size: 50px;
-          margin-top: 30px;
-        }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background: #fff;
+      }
+      th,
+      td {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: center;
+      }
+      th {
+        background: #007bff;
+        color: #fff;
       }
     </style>
   </head>
   <body>
-    <!-- Ícone de checklist -->
-    <div class="checklist-icon"><i class="fas fa-clipboard-check"></i></div>
-    <h1>Checklist Anjos da Guarda</h1>
+    <h1><i class="fas fa-clipboard-check"></i> Checklist Anjos da Guarda</h1>
 
-    <form
-      method="POST"
-      action="https://script.google.com/macros/s/AKfycbykhm8jwLpTR39oj7eUuzp20swtLqUuyKBxn1wO3dz-i-tUSY0iHGlkGtcj8q9DsFqFXg/exec"
-      target="_self"
-    >
-      <label><i class="fas fa-user"></i> Motorista:</label>
-      <input
-        type="text"
-        name="driver"
-        placeholder="Nome do motorista"
-        required
-      />
-
-      <label><i class="fas fa-id-card"></i> Placa da Moto:</label>
-      <select name="vehicle" id="vehicle" required>
-        <option value="">Selecione</option>
-        <option value="SHT4D07">SHT4D07</option>
-        <option value="SHT4D84">SHT4D84</option>
-        <option value="SHT4D74">SHT4D74</option>
-        <option value="QMY5E74">QMY5E74</option>
-        <option value="SHI1I61">SHI1I61</option>
-        <option value="Outro">Outro</option>
-      </select>
-      <input
-        type="text"
-        name="vehicleOther"
-        id="vehicleOther"
-        style="display: none"
-        placeholder="Digite a placa"
-      />
-
-      <label><i class="fas fa-road"></i> Finalidade:</label>
-      <select name="purpose" id="purpose" required>
-        <option value="">Selecione</option>
-        <option value="Início de Rota">Início de Rota</option>
-        <option value="Fim de Rota">Fim de Rota</option>
-        <option value="Abastecimento">Abastecimento</option>
-        <option value="Manutenção">Manutenção</option>
-        <option value="Correspondência">Correspondência</option>
-      </select>
-
-      <div id="kmStartDiv">
-        <label><i class="fas fa-tachometer-alt"></i> KM Inicial:</label>
-        <input type="number" name="kmStart" placeholder="Digite o KM inicial" />
-      </div>
-
-      <div id="kmEndDiv" style="display: none">
-        <label><i class="fas fa-tachometer-alt"></i> KM Final:</label>
-        <input type="number" name="kmEnd" placeholder="Digite o KM final" />
-      </div>
-
-      <label><i class="fas fa-car"></i> Uso do Veículo:</label>
-      <select name="usage" required>
-        <option value="">Selecione</option>
-        <option value="Serviço">Serviço</option>
-        <option value="Transporte Pessoal">Transporte Pessoal</option>
-        <option value="Emergência">Emergência</option>
-      </select>
-
-      <label
-        ><i class="fas fa-exclamation-triangle"></i> Veículo possui
-        alteração?</label
-      >
-      <select name="issueSelect" id="issueSelect" required>
-        <option value="">Selecione</option>
-        <option value="Não">Não</option>
-        <option value="Sim">Sim</option>
-      </select>
-
-      <div id="issueDetails" style="display: none">
-        <label><i class="fas fa-pen"></i> Descreva a alteração:</label>
-        <textarea
-          name="issueDesc"
-          id="issueDesc"
-          rows="4"
-          placeholder="Detalhes da alteração"
-        ></textarea>
-      </div>
-
-      <button type="submit">
-        <i class="fas fa-paper-plane"></i> Enviar Checklist
+    <div class="tabs">
+      <button class="tablink active" onclick="openTab(event, 'formTab')">
+        Checklist
       </button>
-    </form>
+      <button class="tablink" onclick="openTab(event, 'adminTab')">
+        Administrativo
+      </button>
+    </div>
+
+    <!-- Aba do Cliente -->
+    <div id="formTab" class="tab-content" style="display: block">
+      <form
+        method="POST"
+        action="https://script.google.com/macros/s/AKfycbykhm8jwLpTR39oj7eUuzp20swtLqUuyKBxn1wO3dz-i-tUSY0iHGlkGtcj8q9DsFqFXg/exec"
+        target="_self"
+        id="checklistForm"
+      >
+        <label><i class="fas fa-user"></i> Motorista:</label>
+        <input
+          type="text"
+          name="driver"
+          required
+          placeholder="Nome do motorista"
+        />
+
+        <label><i class="fas fa-id-card"></i> Placa da Moto:</label>
+        <select name="vehicle" id="vehicle" required>
+          <option value="">Selecione</option>
+          <option value="SHT4D07">SHT4D07</option>
+          <option value="SHT4D84">SHT4D84</option>
+          <option value="SHT4D74">SHT4D74</option>
+          <option value="QMY5E74">QMY5E74</option>
+          <option value="SHI1I61">SHI1I61</option>
+          <option value="Outro">Outro</option>
+        </select>
+        <input
+          type="text"
+          name="vehicleOther"
+          id="vehicleOther"
+          style="display: none"
+          placeholder="Digite a placa"
+        />
+
+        <label><i class="fas fa-road"></i> Finalidade:</label>
+        <select name="purpose" id="purpose" required>
+          <option value="">Selecione</option>
+          <option value="Início de Rota">Início de Rota</option>
+          <option value="Fim de Rota">Fim de Rota</option>
+          <option value="Abastecimento">Abastecimento</option>
+          <option value="Manutenção">Manutenção</option>
+          <option value="Correspondência">Correspondência</option>
+        </select>
+
+        <div id="kmStartDiv">
+          <label><i class="fas fa-tachometer-alt"></i> KM Inicial:</label>
+          <input
+            type="number"
+            name="kmStart"
+            placeholder="Digite o KM inicial"
+          />
+        </div>
+        <div id="kmEndDiv" style="display: none">
+          <label><i class="fas fa-tachometer-alt"></i> KM Final:</label>
+          <input type="number" name="kmEnd" placeholder="Digite o KM final" />
+        </div>
+
+        <label><i class="fas fa-car"></i> Uso do Veículo:</label>
+        <select name="usage" required>
+          <option value="">Selecione</option>
+          <option value="Serviço">Serviço</option>
+          <option value="Transporte Pessoal">Transporte Pessoal</option>
+          <option value="Emergência">Emergência</option>
+        </select>
+
+        <label><i class="fas fa-exclamation-triangle"></i> Alteração?</label>
+        <select name="issueSelect" id="issueSelect" required>
+          <option value="">Selecione</option>
+          <option value="Não">Não</option>
+          <option value="Sim">Sim</option>
+        </select>
+        <div id="issueDetails" style="display: none">
+          <label><i class="fas fa-pen"></i> Descreva:</label>
+          <textarea name="issueDesc" id="issueDesc" rows="4"></textarea>
+        </div>
+
+        <button type="submit"><i class="fas fa-paper-plane"></i> Enviar</button>
+      </form>
+    </div>
+
+    <!-- Aba Administrativa -->
+    <div id="adminTab" class="tab-content">
+      <h2>Área Administrativa</h2>
+      <input
+        type="text"
+        id="filter"
+        placeholder="Filtrar registros na tabela"
+      />
+      <button onclick="exportPDF()">
+        <i class="fas fa-file-pdf"></i> Exportar PDF
+      </button>
+
+      <table id="checklistTable">
+        <thead>
+          <tr>
+            <th>Motorista</th>
+            <th>Placa</th>
+            <th>Finalidade</th>
+            <th>KM Inicial</th>
+            <th>KM Final</th>
+            <th>Uso</th>
+            <th>Alteração</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
 
     <script>
+      // Alternar abas
+      function openTab(evt, tabName) {
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((t) => (t.style.display = "none"));
+        document
+          .querySelectorAll(".tablink")
+          .forEach((b) => b.classList.remove("active"));
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.classList.add("active");
+      }
+
+      // Regras de exibição dinâmica
       const vehicle = document.getElementById("vehicle");
       const vehicleOther = document.getElementById("vehicleOther");
       const purpose = document.getElementById("purpose");
@@ -217,16 +254,13 @@
       const kmEndDiv = document.getElementById("kmEndDiv");
       const issueSelect = document.getElementById("issueSelect");
       const issueDetails = document.getElementById("issueDetails");
+      const form = document.getElementById("checklistForm");
+      const tableBody = document.querySelector("#checklistTable tbody");
+      const filterInput = document.getElementById("filter");
 
       vehicle.addEventListener("change", () => {
-        if (vehicle.value === "Outro") {
-          vehicleOther.style.display = "block";
-          vehicleOther.required = true;
-        } else {
-          vehicleOther.style.display = "none";
-          vehicleOther.required = false;
-          vehicleOther.value = "";
-        }
+        vehicleOther.style.display =
+          vehicle.value === "Outro" ? "block" : "none";
       });
 
       purpose.addEventListener("change", () => {
@@ -240,13 +274,77 @@
       });
 
       issueSelect.addEventListener("change", () => {
-        if (issueSelect.value === "Sim") {
-          issueDetails.style.display = "block";
-        } else {
-          issueDetails.style.display = "none";
-          document.getElementById("issueDesc").value = "";
-        }
+        issueDetails.style.display =
+          issueSelect.value === "Sim" ? "block" : "none";
       });
+
+      // Salvar dados na tabela local
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        const placa =
+          data.get("vehicle") === "Outro"
+            ? data.get("vehicleOther")
+            : data.get("vehicle");
+        const alteracao =
+          data.get("issueSelect") === "Sim" ? data.get("issueDesc") : "-";
+
+        const row = tableBody.insertRow();
+        row.insertCell(0).innerText = data.get("driver");
+        row.insertCell(1).innerText = placa;
+        row.insertCell(2).innerText = data.get("purpose");
+        row.insertCell(3).innerText = data.get("kmStart");
+        row.insertCell(4).innerText = data.get("kmEnd");
+        row.insertCell(5).innerText = data.get("usage");
+        row.insertCell(6).innerText = alteracao;
+
+        // Enviar para Apps Script
+        fetch(form.action, { method: "POST", body: data });
+
+        form.reset();
+        vehicleOther.style.display = "none";
+        kmEndDiv.style.display = "none";
+        kmStartDiv.style.display = "block";
+        issueDetails.style.display = "none";
+      });
+
+      // Filtro
+      filterInput.addEventListener("input", () => {
+        const f = filterInput.value.toLowerCase();
+        [...tableBody.rows].forEach((r) => {
+          r.style.display = [...r.cells].some((c) =>
+            c.innerText.toLowerCase().includes(f)
+          )
+            ? ""
+            : "none";
+        });
+      });
+
+      // Exportar PDF
+      function exportPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.text("Checklist Anjos da Guarda", 10, 10);
+        const rows = [...tableBody.rows].map((r) =>
+          [...r.cells].map((c) => c.innerText)
+        );
+        doc.autoTable({
+          head: [
+            [
+              "Motorista",
+              "Placa",
+              "Finalidade",
+              "KM Inicial",
+              "KM Final",
+              "Uso",
+              "Alteração",
+            ],
+          ],
+          body: rows,
+          startY: 20,
+        });
+        doc.save("Checklist.pdf");
+      }
     </script>
   </body>
 </html>
